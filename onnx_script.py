@@ -13,9 +13,9 @@ import torch
 class MiePredictor:
 
     # Normalization constants — set these to match how the model was trained
-    N_MIN, N_MAX = 1.0, 1.5
-    K_MIN, K_MAX = 0.68, 1.00
-    X_MIN = np.pi * 50 / 650 
+    N_MIN, N_MAX = 1.0, 1.9
+    K_MIN, K_MAX = 0.5, 1.00
+    X_MIN = np.pi * 100 / 650 
     X_MAX = np.pi * 1200 / 450 
     ASSUMED_WAVELENGTH = 500    # just for calculation purposes
 
@@ -84,12 +84,12 @@ def py_Mie_Diff_Scattering(wavelength, diameter, n, k, environment_value = 1.00)
     return angle_scattering['i_unpol']
 
 # example of running the code
-x = 3.5
+x = 4.3
 n = 1.5
 k = 0.99
 
 # change to the name of the onnx file
-predictor = MiePredictor("NN_5_Derivatives_D(50-1200)_W(450-650)_N(1-1.5)_k(0.68-1).onnx")
+predictor = MiePredictor("mie_scattering_NN_D(100-1200)_W(450-650)_N(1.0-1.9)_k(0.5-1.0).onnx")
 curve_truth = predictor.predict(x=x, n=1.5, k=0.99)
 
 # have to convert x to diameter and wavelength when running pyMieDiff
